@@ -2,6 +2,7 @@ import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import make_pipeline
+from sklearn.metrics.pairwise import cosine_similarity
 
 # Data load karo
 df = pd.read_csv("data/complaints.csv")
@@ -29,8 +30,6 @@ def get_priority(text):
         return "Low"
     return "Medium"
 
-from sklearn.metrics.pairwise import cosine_similarity
-
 
 def find_duplicate(new_text, existing_texts, threshold=0.6):
     """Agar naya text kisi purane text jaisa hai to uska index return karta hai."""
@@ -47,9 +46,3 @@ def find_duplicate(new_text, existing_texts, threshold=0.6):
     if scores[best] >= threshold:
         return int(best)
     return None
-
-
-if __name__ == "__main__":
-    test = "pothole ki wajah se accident ho gaya"
-    print("Category:", predict_category(test))
-    print("Priority:", get_priority(test))
